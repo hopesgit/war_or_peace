@@ -73,4 +73,14 @@ class Turn
       end
     end
   end
+
+  def award_spoils
+    case @turn_winner
+    when player1
+      @player1.deck.add_card(spoils_of_war)
+    when player2
+      @player2.deck.add_card(spoils_of_war)
+    end
+    @spoils_of_war.clear
+  end
 end
