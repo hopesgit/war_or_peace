@@ -20,6 +20,18 @@ class DeckTest < Minitest::Test
     assert_equal [card1, card2, card3], deck.cards
   end
 
+  def test_it_can_start_with_or_without_cards
+    deck1 = Deck.new
+    card1 = Card.new(:diamond, "Queen", 12)
+    card2 = Card.new(:spade, "3", 3)
+    card3 = Card.new(:heart, "Ace", 14)
+    cards_to_add = [card1, card2, card3]
+    deck2 = Deck.new(cards_to_add)
+
+    assert_equal [], deck1.cards
+    assert_equal [card1, card2, card3], deck2.cards
+  end
+
   def test_it_can_find_rank
     card1 = Card.new(:diamond, "Queen", 12)
     card2 = Card.new(:spade, "3", 3)
@@ -51,10 +63,11 @@ class DeckTest < Minitest::Test
     assert_equal 66.67, deck.percent_high_ranking
   end
 
-  def test_it_can_get_rid_of_cards
+  def test_adding_and_removing_cards_changes_high_card_calculations
     card1 = Card.new(:diamond, "Queen", 12)
     card2 = Card.new(:spade, "3", 3)
     card3 = Card.new(:heart, "Ace", 14)
+    card4 = Card.new(:club, "5", 5)
     cards = [card1, card2, card3]
     deck = Deck.new(cards)
 
@@ -65,6 +78,12 @@ class DeckTest < Minitest::Test
     assert_equal [card2, card3], deck.cards
     assert_equal [card3], deck.high_ranking_cards
     assert_equal 50.0, deck.percent_high_ranking
+
+    deck.add_card(card4)
+
+    assert_equal [card2, card3, card4], deck.cards
+    assert_equal [card3], deck.high_ranking_cards
+    assert_equal 33.33, deck.percent_high_ranking
   end
 
   def test_it_can_create_cards
@@ -72,5 +91,6 @@ class DeckTest < Minitest::Test
     deck.generate_cards
 
     assert_equal 52, deck.cards.count
+    assert_equal 52, deck.cards.uniq.count
   end
 end
