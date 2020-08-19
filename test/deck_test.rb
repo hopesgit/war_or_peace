@@ -91,5 +91,6 @@ class DeckTest < Minitest::Test
     deck.generate_cards
 
     assert_equal 52, deck.cards.count
+    assert_equal 52, deck.cards.uniq.count
   end
 end
