@@ -25,4 +25,16 @@ class DeckTest < Minitest::Test
     deck1.add_card(cards)
     assert_equal [heartjack, heartqueen, heartking], deck1.cards
   end
+
+  def test_it_can_find_rank
+    deck1 = Deck.new
+    heartjack = Card.new(:heart, "Jack", 11)
+    heartqueen = Card.new(:heart, "Queen", 12)
+    heartking = Card.new(:heart, "King", 13)
+    cards = [heartjack, heartqueen, heartking]
+    deck1.add_card(cards)
+
+    assert_equal 11, deck1.rank_of_card_at(0)
+    assert_equal 13, deck1.rank_of_card_at(2)
+  end
 end

@@ -14,4 +14,8 @@ class Deck
     @cards << card_to_add
     @cards.flatten!
   end
+
+  def rank_of_card_at(index)
+    @cards[index].rank
+  end
 end
