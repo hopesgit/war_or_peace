@@ -150,6 +150,8 @@ class TurnTest < Minitest::Test
     turn = Turn.new(player1, player2)
     turn.pile_cards
 
+    assert_equal [], turn.player1.deck.cards
+    assert_equal [], turn.player2.deck.cards
     assert_equal [card1, card3], turn.spoils_of_war
   end
 
@@ -175,5 +177,29 @@ class TurnTest < Minitest::Test
     assert_equal 2, turn.player1.deck.cards.count
     assert_equal 0, turn.player2.deck.cards.count
     assert turn.spoils_of_war.empty?
+  end
+
+  def test_basic_path
+    card1 = Card.new(:heart, 'Jack', 11)
+    card3 = Card.new(:heart, '9', 9)
+    deck1 = Deck.new([card3])
+    deck2 = Deck.new([card1])
+    player1 = Player.new("Megan", deck1)
+    player2 = Player.new("Aurora", deck2)
+    turn = Turn.new(player1, player2)
+
+    assert_equal :basic, turn.type
+    assert_equal player2, turn.winner
+
+    turn.pile_cards
+
+    assert_equal 0, turn.player1.deck.cards.count
+    assert_equal 0, turn.player2.deck.cards.count
+
+    turn.award_spoils
+
+    assert_equal 2, turn.player2.deck.cards.count
+    assert_equal 0, turn.player1.deck.cards.count
+    assert turn.player1.has_lost?
   end
 end

@@ -75,6 +75,7 @@ class Turn
   end
 
   def award_spoils
+    @spoils_of_war.shuffle!
     case @turn_winner
     when player1
       @player1.deck.add_card(spoils_of_war)
