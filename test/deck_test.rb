@@ -20,6 +20,18 @@ class DeckTest < Minitest::Test
     assert_equal [card1, card2, card3], deck.cards
   end
 
+  def test_it_can_start_with_or_without_cards
+    deck1 = Deck.new
+    card1 = Card.new(:diamond, "Queen", 12)
+    card2 = Card.new(:spade, "3", 3)
+    card3 = Card.new(:heart, "Ace", 14)
+    cards_to_add = [card1, card2, card3]
+    deck2 = Deck.new(cards_to_add)
+
+    assert_equal [], deck1.cards
+    assert_equal [card1, card2, card3], deck2.cards
+  end
+
   def test_it_can_find_rank
     card1 = Card.new(:diamond, "Queen", 12)
     card2 = Card.new(:spade, "3", 3)
