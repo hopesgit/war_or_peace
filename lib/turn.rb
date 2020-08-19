@@ -23,4 +23,32 @@ class Turn
       end
     end
   end
+
+  def basic_comparison
+    if player1.deck.rank_of_card_at(0) > player2.deck.rank_of_card_at(0)
+      @player1
+    else
+      @player2
+    end
+  end
+
+  def war_comparison
+    if player1.deck.rank_of_card_at(2) > player2.deck.rank_of_card_at(2)
+      @player1
+    else
+      @player2
+    end
+  end
+
+  def winner
+    case type
+    when :basic
+      basic_comparison
+    when :war
+      war_comparison
+    when :mutually_assured_destruction
+      "No Winner"
+    end
+  end
+
 end
