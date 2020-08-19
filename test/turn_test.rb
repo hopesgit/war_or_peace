@@ -106,6 +106,8 @@ class TurnTest < Minitest::Test
 
     assert_equal 0, turn.player1.deck.cards.count
     assert_equal 0, turn.player2.deck.cards.count
+
+    assert_equal [card8, card7], turn.spoils_of_war
   end
 
   def test_it_can_move_cards_from_players_to_spoils
