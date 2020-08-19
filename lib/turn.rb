@@ -9,7 +9,8 @@ class Turn
     @player1       = player1
     @player2       = player2
     @spoils_of_war = []
-    @type = :basic
+    @type          = :basic
+    @turn_winner   = ""
   end
 
   def type
@@ -43,12 +44,33 @@ class Turn
   def winner
     case type
     when :basic
-      basic_comparison
+      @turn_winner = basic_comparison
     when :war
-      war_comparison
+      @turn_winner = war_comparison
     when :mutually_assured_destruction
-      "No Winner"
+      @turn_winner = "No Winner"
     end
+    @turn_winner
   end
 
+  def lose_cards
+    @spoils_of_war << player1.deck.remove_card
+    @spoils_of_war << player2.deck.remove_card
+  end
+
+  def pile_cards
+    case type
+    when :basic
+      lose_cards
+    when :war
+      3.times do
+        lose_cards
+      end
+    when :mutually_assured_destruction
+      3.times do
+        player1.deck.remove_card
+        player2.deck.remove_card
+      end
+    end
+  end
 end
