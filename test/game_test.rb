@@ -41,4 +41,17 @@ class GameTest < Minitest::Test
 
     assert_equal turn, war.turn
   end
+
+  def test_game_intro
+    card7 = Card.new(:heart, '3', 3)
+    card8 = Card.new(:diamond, '2', 2)
+    deck1 = Deck.new([card8])
+    deck2 = Deck.new([card7])
+    player1 = Player.new("Megan", deck1)
+    player2 = Player.new("Aurora", deck2)
+    turn = Turn.new(player1, player2)
+    war = Game.new(turn)
+
+    assert_equal 0, war.game_intro
+  end
 end
