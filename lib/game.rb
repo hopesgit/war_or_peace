@@ -7,7 +7,9 @@ class Game
   attr_reader :turn
 
   def initialize(turn)
-    @turn = turn
+    @turn       = turn
+    @turn_count = 0
+    @winner     = ""
   end
 
   def game_intro
@@ -16,5 +18,17 @@ class Game
     puts "Type 'GO' to start the game!"
     puts "-" * 30
     0
+  end
+
+  def user_input
+    input = gets.chomp.upcase
+    loop do
+      if input == "GO"
+        break
+      else
+        "Please try again."
+      end
+    end
+    input
   end
 end

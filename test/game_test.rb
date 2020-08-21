@@ -54,4 +54,18 @@ class GameTest < Minitest::Test
 
     assert_equal 0, war.game_intro
   end
+
+  def test_it_can_accept_user_input_to_start_game
+    card7 = Card.new(:heart, '3', 3)
+    card8 = Card.new(:diamond, '2', 2)
+    deck1 = Deck.new([card8])
+    deck2 = Deck.new([card7])
+    player1 = Player.new("Megan", deck1)
+    player2 = Player.new("Aurora", deck2)
+    turn = Turn.new(player1, player2)
+    war = Game.new(turn)
+    war.game_intro
+
+    assert_equal "GO", war.user_input
+  end
 end
