@@ -31,4 +31,13 @@ class Game
     end
     input
   end
+
+  def cut_cards
+    deck_of_cards = Deck.new
+    deck_of_cards.generate_cards
+    p1deck = deck_of_cards.cards[0..25]
+    p2deck = deck_of_cards.cards[26..51]
+    @turn.player1.deck.add_card(p1deck)
+    @turn.player2.deck.add_card(p2deck)
+  end
 end
