@@ -70,6 +70,42 @@ class GameTest < Minitest::Test
     assert_equal "GO", war.user_input
   end
 
+  def test_player_card_counts
+    card1 = Card.new(:heart, 'Jack', 11)
+    card2 = Card.new(:heart, '10', 10)
+    card4 = Card.new(:diamond, 'Jack', 11)
+    card5 = Card.new(:heart, '8', 8)
+    card6 = Card.new(:diamond, 'Queen', 12)
+    deck1 = Deck.new([card1, card2, card5])
+    deck2 = Deck.new([card4, card6])
+    player1 = Player.new("Megan", deck1)
+    player2 = Player.new("Aurora", deck2)
+    turn = Turn.new(player1, player2)
+    war = Game.new(turn)
+
+    war.card_count
+
+    assert_equal :player1, war.winner
+  end
+
+  def test_players_can_lose_by_not_having_enough_cards_for_war
+    card1 = Card.new(:heart, 'Jack', 11)
+    card2 = Card.new(:heart, '10', 10)
+    card4 = Card.new(:diamond, 'Jack', 11)
+    card5 = Card.new(:heart, '8', 8)
+    card6 = Card.new(:diamond, 'Queen', 12)
+    deck1 = Deck.new([card1, card2, card5])
+    deck2 = Deck.new([card4, card6])
+    player1 = Player.new("Megan", deck1)
+    player2 = Player.new("Aurora", deck2)
+    turn = Turn.new(player1, player2)
+    war = Game.new(turn)
+    war.turn.type
+    war.not_enough_cards_for_war
+
+    assert_equal :player1, war.winner
+  end
+
   def test_game_can_be_set_up
     deck1 = Deck.new
     deck2 = Deck.new

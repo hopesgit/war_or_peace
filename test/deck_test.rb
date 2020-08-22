@@ -41,6 +41,7 @@ class DeckTest < Minitest::Test
 
     assert_equal 12, deck.rank_of_card_at(0)
     assert_equal 14, deck.rank_of_card_at(2)
+    assert_equal "Object is out of bounds.", deck.rank_of_card_at(4)
   end
 
   def test_it_can_find_high_cards

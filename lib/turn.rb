@@ -3,7 +3,7 @@ require "./lib/player"
 require "./lib/card"
 
 class Turn
-  attr_reader :player1, :player2, :spoils_of_war, :turn_type
+  attr_reader :player1, :player2, :spoils_of_war, :turn_type, :turn_winner
 
   def initialize(player1, player2)
     @player1       = player1
@@ -17,8 +17,10 @@ class Turn
     if player1.deck.rank_of_card_at(0) != player2.deck.rank_of_card_at(0)
       @turn_type = :basic
     elsif player1.deck.rank_of_card_at(0) == player2.deck.rank_of_card_at(0)
-      if player1.deck.rank_of_card_at(2) == player2.deck.rank_of_card_at(2)
+      if (player1.deck.rank_of_card_at(2) == player2.deck.rank_of_card_at(2)) && (player1.deck.rank_of_card_at(2).class == Integer && player2.deck.rank_of_card_at(2).class == Integer)
         @turn_type = :mutually_assured_destruction
+      elsif player1.deck.rank_of_card_at(2) == "Object is out of bounds." || player2.deck.rank_of_card_at(2) == "Object is out of bounds."
+        @turn_type = :end
       else
         @turn_type = :war
       end
@@ -41,6 +43,17 @@ class Turn
     end
   end
 
+  def end_comparison
+    if player1.deck.cards.count < 3 && player2.deck.cards.count < 3
+      "No Winner"
+    elsif player2.deck.cards.count < 3
+      @player1
+    elsif player1.deck.cards.count < 3
+      @player2
+
+    end
+  end
+
   def winner
     case @turn_type
     when :basic
@@ -49,6 +62,8 @@ class Turn
       @turn_winner = war_comparison
     when :mutually_assured_destruction
       @turn_winner = "No Winner"
+    when :end
+      @turn_winner = end_comparison
     end
     @turn_winner
   end

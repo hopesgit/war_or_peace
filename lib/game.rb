@@ -4,7 +4,7 @@ require "./lib/player"
 require "./lib/turn"
 
 class Game
-  attr_reader :turn
+  attr_reader :turn, :winner, :turn_count
 
   def initialize(turn)
     @turn          = turn
@@ -42,18 +42,37 @@ class Game
   end
 
   def go_to_war
-    @turn_count += 1
-    @turn.type
-    @turn.winner
-    @turn.pile_cards
-    @turn.award_spoils
+    until win_condition
+      @turn_count += 1
+      @turn.type
+      @turn.winner
+      @turn.pile_cards
+      @turn.award_spoils
+      turn_results
+    end
   end
 
-  def not_enough_cards
-    
+  def card_count
+    if turn.player1.deck.cards.count <= 2 && turn.player2.deck.cards.count <= 2
+      @winner = :neither
+    elsif turn.player2.deck.cards.count <= 2+
+      @winner = :player1
+    elsif turn.player1.deck.cards.count <= 2
+      @winner = :player2
+    end
+  end
+
+  def not_enough_cards_for_war
+    if turn.turn_type == :end
+      card_count
+    end
+  end
+
+  def turn_results
   end
 
   def win_condition
-
+    @turn_count == 1000000
+    turn.turn_type == :end
   end
 end

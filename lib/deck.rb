@@ -27,7 +27,12 @@ class Deck
   end
 
   def rank_of_card_at(index)
-    @cards[index].rank
+    rank_to_find = @cards[index]
+    if rank_to_find.class == Card
+      rank_to_find.rank
+    else
+      "Object is out of bounds."
+    end
   end
 
   def high_ranking_cards
