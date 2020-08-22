@@ -84,6 +84,8 @@ class GameTest < Minitest::Test
     assert_equal 26, war.turn.player2.deck.cards.uniq.count
   end
 
+  def test_it_can_
+
   # def test_win_condition
   #   card1 = Card.new(:heart, 'Jack', 11)
   #   card2 = Card.new(:heart, '10', 10)
