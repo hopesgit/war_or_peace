@@ -3,24 +3,24 @@ require "./lib/player"
 require "./lib/card"
 
 class Turn
-  attr_reader :player1, :player2, :spoils_of_war
+  attr_reader :player1, :player2, :spoils_of_war, :turn_type
 
   def initialize(player1, player2)
     @player1       = player1
     @player2       = player2
     @spoils_of_war = []
-    @type          = :basic
+    @turn_type     = :basic
     @turn_winner   = ""
   end
 
   def type
     if player1.deck.rank_of_card_at(0) != player2.deck.rank_of_card_at(0)
-      @type = :basic
+      @turn_type = :basic
     elsif player1.deck.rank_of_card_at(0) == player2.deck.rank_of_card_at(0)
       if player1.deck.rank_of_card_at(2) == player2.deck.rank_of_card_at(2)
-        @type = :mutually_assured_destruction
+        @turn_type = :mutually_assured_destruction
       else
-        @type = :war
+        @turn_type = :war
       end
     end
   end
@@ -42,7 +42,7 @@ class Turn
   end
 
   def winner
-    case type
+    case @turn_type
     when :basic
       @turn_winner = basic_comparison
     when :war
@@ -59,7 +59,7 @@ class Turn
   end
 
   def pile_cards
-    case type
+    case @turn_type
     when :basic
       lose_cards
     when :war
