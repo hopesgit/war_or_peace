@@ -4,7 +4,7 @@ require "./lib/player"
 require "./lib/turn"
 
 class Game
-  attr_reader :turn, :winner, :turn_count
+  attr_reader :turn, :turn_count
 
   def initialize(turn)
     @turn          = turn
