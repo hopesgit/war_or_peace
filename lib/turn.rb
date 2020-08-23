@@ -14,14 +14,14 @@ class Turn
   end
 
   def type
-    if player1.deck.rank_of_card_at(0) != player2.deck.rank_of_card_at(0)
-      @turn_type = :basic
+    @turn_type = if player1.deck.rank_of_card_at(0) != player2.deck.rank_of_card_at(0)
+      :basic
     elsif player1.deck.rank_of_card_at(2) == 1 || player2.deck.rank_of_card_at(2) == 1
-      @turn_type = :end
+      :end
     elsif (player1.deck.rank_of_card_at(2) == player2.deck.rank_of_card_at(2))
-      @turn_type = :mutually_assured_destruction
+      :mutually_assured_destruction
     else
-      @turn_type = :war
+      :war
     end
   end
 
