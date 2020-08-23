@@ -48,22 +48,20 @@ class Turn
       @player1
     elsif player1.deck.cards.count < 3
       @player2
-
     end
   end
 
   def winner
-    case @turn_type
+    @turn_winner = case @turn_type
     when :basic
-      @turn_winner = basic_comparison
+      basic_comparison
     when :war
-      @turn_winner = war_comparison
+      war_comparison
     when :mutually_assured_destruction
-      @turn_winner = "No Winner"
+      "No Winner"
     when :end
-      @turn_winner = end_comparison
+      end_comparison
     end
-    @turn_winner
   end
 
   def lose_cards
