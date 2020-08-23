@@ -156,4 +156,18 @@ class GameTest < Minitest::Test
 
     assert_equal "Turn 0: WAR - Aurora won 6 cards", war.turn_result
   end
+
+  def test_turn_result_mad
+    card1 = Card.new(:heart, 'Jack', 11)
+    card2 = Card.new(:heart, '10', 10)
+    card4 = Card.new(:diamond, 'Jack', 11)
+    card5 = Card.new(:heart, '8', 8)
+    card6 = Card.new(:diamond, 'Queen', 12)
+    card7 = Card.new(:heart, '8', 8)
+    deck1 = Deck.new([card1, card2, card5])
+    deck2 = Deck.new([card4, card6, card7])
+    player1 = Player.new("Megan", deck1)
+    player2 = Player.new("Aurora", deck2)
+    turn = Turn.new(player1, player2)
+  end
 end
