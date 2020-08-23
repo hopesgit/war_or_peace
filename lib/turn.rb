@@ -3,25 +3,25 @@ require "./lib/player"
 require "./lib/card"
 
 class Turn
-  attr_reader :player1, :player2, :spoils_of_war
+  attr_reader :player1, :player2, :spoils_of_war, :turn_type, :turn_winner
 
   def initialize(player1, player2)
     @player1       = player1
     @player2       = player2
     @spoils_of_war = []
-    @type          = :basic
+    @turn_type     = :basic
     @turn_winner   = ""
   end
 
   def type
-    if player1.deck.rank_of_card_at(0) != player2.deck.rank_of_card_at(0)
-      @type = :basic
-    elsif player1.deck.rank_of_card_at(0) == player2.deck.rank_of_card_at(0)
-      if player1.deck.rank_of_card_at(2) == player2.deck.rank_of_card_at(2)
-        @type = :mutually_assured_destruction
-      else
-        @type = :war
-      end
+    @turn_type = if player1.deck.rank_of_card_at(0) != player2.deck.rank_of_card_at(0)
+      :basic
+    elsif player1.deck.rank_of_card_at(2) == 1 || player2.deck.rank_of_card_at(2) == 1
+      :end
+    elsif (player1.deck.rank_of_card_at(2) == player2.deck.rank_of_card_at(2))
+      :mutually_assured_destruction
+    else
+      :war
     end
   end
 
@@ -41,16 +41,27 @@ class Turn
     end
   end
 
-  def winner
-    case type
-    when :basic
-      @turn_winner = basic_comparison
-    when :war
-      @turn_winner = war_comparison
-    when :mutually_assured_destruction
-      @turn_winner = "No Winner"
+  def end_comparison
+    if player1.deck.cards.count < 3 && player2.deck.cards.count < 3
+      "No Winner"
+    elsif player2.deck.cards.count < 3
+      @player1
+    elsif player1.deck.cards.count < 3
+      @player2
     end
-    @turn_winner
+  end
+
+  def winner
+    @turn_winner = case @turn_type
+    when :basic
+      basic_comparison
+    when :war
+      war_comparison
+    when :mutually_assured_destruction
+      "No Winner"
+    when :end
+      end_comparison
+    end
   end
 
   def lose_cards
@@ -59,7 +70,7 @@ class Turn
   end
 
   def pile_cards
-    case type
+    case @turn_type
     when :basic
       lose_cards
     when :war
