@@ -9,7 +9,6 @@ class Game
   def initialize(turn)
     @turn          = turn
     @turn_count    = 0
-    @winner        = ""
     @starting_deck = Deck.new
   end
 
@@ -68,19 +67,16 @@ class Game
   end
 
   def turn_result
-    case @turn.turn_type
-    when :basic
+    if @turn_count == 1000001
+      p "DRAW - Your battle has resulted in a stalemate. Return to base!"
+    elsif @turn.turn_type == :basic
       p "Turn #{turn_count}: #{turn.turn_winner.name} won 2 cards"
-    when :war
+    elsif @turn.turn_type == :war
       p "Turn #{turn_count}: WAR - #{turn.turn_winner.name} won 6 cards"
-    when :mutually_assured_destruction
+    elsif @turn.turn_type == :mutually_assured_destruction
       p "Turn #{turn_count}: *mutually assured destruction* 6 cards removed from play"
-    when :end
-      if @turn_count == 1000001
-        p "DRAW - Your battle has resulted in a stalemate. Return to base!"
-      else
-        p "Game over!"
-      end
+    elsif @turn.turn_type == :end
+      p "Game over! #{turn.turn_winner.name}'s Army has taken victory!"
     end
   end
 end

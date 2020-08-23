@@ -169,5 +169,54 @@ class GameTest < Minitest::Test
     player1 = Player.new("Megan", deck1)
     player2 = Player.new("Aurora", deck2)
     turn = Turn.new(player1, player2)
+    war = Game.new(turn)
+    war.turn.type
+    war.turn.winner
+    war.turn.pile_cards
+    war.turn.award_spoils
+
+    assert_equal "Turn 0: *mutually assured destruction* 6 cards removed from play", war.turn_result
+  end
+
+  def test_turn_result_turn_limit
+    card1 = Card.new(:heart, 'Jack', 11)
+    card2 = Card.new(:heart, '10', 10)
+    card4 = Card.new(:diamond, 'Jack', 11)
+    card5 = Card.new(:heart, '8', 8)
+    card6 = Card.new(:diamond, 'Queen', 12)
+    card7 = Card.new(:heart, '8', 8)
+    deck1 = Deck.new([card1, card2, card5])
+    deck2 = Deck.new([card4, card6, card7])
+    player1 = Player.new("Megan", deck1)
+    player2 = Player.new("Aurora", deck2)
+    turn = Turn.new(player1, player2)
+    war = Game.new(turn)
+    war.debug_turn_count
+    war.turn.type
+    war.turn.winner
+    war.turn.pile_cards
+    war.turn.award_spoils
+
+    assert_equal "DRAW - Your battle has resulted in a stalemate. Return to base!", war.turn_result
+  end
+
+  def test_turn_result_end_type
+    card1 = Card.new(:heart, 'Jack', 11)
+    card2 = Card.new(:heart, '10', 10)
+    card4 = Card.new(:diamond, 'Jack', 11)
+    card6 = Card.new(:diamond, 'Queen', 12)
+    card7 = Card.new(:heart, '8', 8)
+    deck1 = Deck.new([card1, card2])
+    deck2 = Deck.new([card4, card6, card7])
+    player1 = Player.new("Megan", deck1)
+    player2 = Player.new("Aurora", deck2)
+    turn = Turn.new(player1, player2)
+    war = Game.new(turn)
+    war.turn.type
+    war.turn.winner
+    war.turn.pile_cards
+    war.turn.award_spoils
+
+    assert_equal "Game over! Aurora's Army has taken victory!", war.turn_result
   end
 end
