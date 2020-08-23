@@ -35,10 +35,17 @@ class Game
 
   def cut_cards
     @starting_deck.generate_cards
+    @starting_deck.cards.shuffle!
     p1deck = @starting_deck.cards[0..25]
     p2deck = @starting_deck.cards[26..51]
     @turn.player1.deck.add_card(p1deck)
     @turn.player2.deck.add_card(p2deck)
+  end
+
+  def start
+    game_intro
+    user_input
+    cut_cards
   end
 
   def go_to_war
@@ -48,31 +55,32 @@ class Game
       @turn.winner
       @turn.pile_cards
       @turn.award_spoils
-      turn_results
+      turn_result
     end
-  end
-
-  def card_count
-    if turn.player1.deck.cards.count <= 2 && turn.player2.deck.cards.count <= 2
-      @winner = :neither
-    elsif turn.player2.deck.cards.count <= 2+
-      @winner = :player1
-    elsif turn.player1.deck.cards.count <= 2
-      @winner = :player2
-    end
-  end
-
-  def not_enough_cards_for_war
-    if turn.turn_type == :end
-      card_count
-    end
-  end
-
-  def turn_results
   end
 
   def win_condition
-    @turn_count == 1000000
-    turn.turn_type == :end
+    @turn_count == 1000001 || @turn.turn_type == :end
+  end
+
+  def debug_turn_count
+    @turn_count += 1000001
+  end
+
+  def turn_result
+    case @turn.turn_type
+    when :basic
+      p "Turn #{turn_count}: #{turn.turn_winner.name} won 2 cards"
+    when :war
+      p "Turn #{turn_count}: WAR - #{turn.turn_winner.name} won 6 cards"
+    when :mutually_assured_destruction
+      p "Turn #{turn_count}: *mutually assured destruction* 6 cards removed from play"
+    when :end
+      if @turn_count == 1000001
+        p "DRAW - Your battle has resulted in a stalemate. Return to base!"
+      else
+        p "Game over!"
+      end
+    end
   end
 end

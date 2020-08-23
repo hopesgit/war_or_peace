@@ -17,10 +17,10 @@ class Turn
     if player1.deck.rank_of_card_at(0) != player2.deck.rank_of_card_at(0)
       @turn_type = :basic
     elsif player1.deck.rank_of_card_at(0) == player2.deck.rank_of_card_at(0)
-      if (player1.deck.rank_of_card_at(2) == player2.deck.rank_of_card_at(2)) && (player1.deck.rank_of_card_at(2).class == Integer && player2.deck.rank_of_card_at(2).class == Integer)
+      if player1.deck.rank_of_card_at(2) == 1 || player2.deck.rank_of_card_at(2) == 1
+      @turn_type = :end
+      elsif (player1.deck.rank_of_card_at(2) == player2.deck.rank_of_card_at(2))
         @turn_type = :mutually_assured_destruction
-      elsif player1.deck.rank_of_card_at(2) == "Object is out of bounds." || player2.deck.rank_of_card_at(2) == "Object is out of bounds."
-        @turn_type = :end
       else
         @turn_type = :war
       end

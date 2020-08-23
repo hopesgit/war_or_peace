@@ -31,7 +31,7 @@ class Deck
     if rank_to_find.class == Card
       rank_to_find.rank
     else
-      "Object is out of bounds."
+      1
     end
   end
 
